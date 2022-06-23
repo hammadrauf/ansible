@@ -1,0 +1,37 @@
+name: Build and Push ansible on Quay.io
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: ansible-build
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+
+      - name: Login to quay.io
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.QUAY_REGISTRY_NAME }}
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.QUAY_REGISTRY_NAME }}/${{ secrets.QUAY_IMAGE_NAME }}:${{ github.sha }}, ${{ secrets.QUAY_REGISTRY_NAME }}/${{ secrets.QUAY_IMAGE_NAME }}:latest
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
