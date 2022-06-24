@@ -1,17 +1,28 @@
 # ansible (Docker Image)
 
+## What is Ansible?
+https://www.ansible.com/
+
+https://en.wikipedia.org/wiki/Ansible_(software)
+
+https://docs.ansible.com/ansible/latest/user_guide/index.html
+
+https://docs.ansible.com/ansible_community.html
+
+https://docs.ansible.com/
+
 ### Launch Docker Image into a Container, Using:
 
 The following command downloads and launches the already built image from Docker Hub (https://hub.docker.com/r/hammadrauf/ansible)
 
 ```
-docker run --name ansible-01 -d -it hammadrauf/ansible
+docker run --name ansible-01 -d -it --volume ansible-data:/etc/ansible hammadrauf/ansible
 ```
 OR
 The Following command downloads and launches the already built image from Quay.io Regsitry (https://quay.io/repository/hammadrauf/ansible)
 
 ```
-docker run --name ansible-01 -d -it quay.io/hammadrauf/ansible
+docker run --name ansible-01 -d -it --volume ansible-data:/etc/ansible quay.io/hammadrauf/ansible
 ```
 
 ### Stop  Container, Using (Database will persist until Container is removed):
