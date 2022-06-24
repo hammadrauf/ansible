@@ -8,7 +8,10 @@ WORKDIR /home/${ARG_POWER_USER}
 RUN echo ${ARG_PU_PWD} | sudo -S sh -c "echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main' >> /etc/apt/sources.list.d/additional-repo.list"
 RUN echo ${ARG_PU_PWD} | sudo -S apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 RUN echo ${ARG_PU_PWD} | sudo -S apt update
+RUN echo ${ARG_PU_PWD} | sudo -S mkdir -p /etc/ansible
+RUN echo ${ARG_PU_PWD} | sudo -S chmod 755 /etc/ansible
 RUN echo ${ARG_PU_PWD} | sudo -S apt install -y ansible
 #RUN python3 -m pip install argcomplete
 #RUN activate-global-python-argcomplete
+VOLUME ["/etc/ansible"]
 ENTRYPOINT ["/bin/bash"]
